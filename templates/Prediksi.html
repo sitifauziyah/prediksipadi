@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Prediksi Panen Padi</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='assets/Padi.png')}}" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{{url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+    </head>
+   <body id="page-top">
+        <nav class="navbar navbar-expand-lg bg-success fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand"><img src="{{url_for('static', filename='/assets/img/Padi-db.png')}}">Prediksi Panen Padi</a>
+            </div>
+            <div>
+                <a href="/menupengunjung"><button type="button" class="btn btn-warning">Menu Pengunjung</button></a>
+            </div>
+        </nav>
+        <div class="page-section" id="prediksi">
+            <div class="col-md-5 col-sm-5 mb-3" style="margin: auto">
+                <div class="container mt-5 col-5"></div>
+                    <div class="text-center">
+                        <h2 class="section-heading text-uppercase">Halaman Prediksi</h2>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header" style="background-color: #778899; color:#ffff">
+                        Prediksi
+                        </div>
+                        <div class="card-body" style="text-align: justify;">
+                              <form action = "/prediksi/" method = "POST">
+                                  <table>
+                                        <tr class="mb-3">
+                                            <td><label>Pilih Provinsi</label></td>
+                                            <td>:</td>
+                                            <td>
+                                                <select id="provinsi" name="provinsi">
+                                                <option value="0">(Pilih Provinsi)</option>
+                                                <option value="11">Aceh</option>
+                                                <option value="12">Sumatra Utara</option>
+                                                <option value="13">Sumatra Barat</option>
+                                                <option value="14">Riau</option>
+                                                <option value="15">Jambi</option>
+                                                <option value="16">Sumatra Selatan</option>
+                                                <option value="17">Bengkulu</option>
+                                                <option value="18">Lampung</option>
+                                                <option value="19">Bangka Belitung</option>
+                                                <option value="21">Kepulauan Riau</option>
+                                                <option value="31">DKI Jakarta</option>
+                                                <option value="32">Jawa Barat</option>
+                                                <option value="33">Jawa Tengah</option>
+                                                <option value="34">DI Yogyakarta</option>
+                                                <option value="35">Jawa Timur</option>
+                                                <option value="36">Banten</option>
+                                                <option value="51">Bali</option>
+                                                <option value="52">Nusa Tenggara Barat</option>
+                                                <option value="53">Nusa Tenggara Timur</option>
+                                                <option value="61">Kalimantan Barat</option>
+                                                <option value="62">Kalimantan Tengah</option>
+                                                <option value="63">Kalimantan Selatan</option>
+                                                <option value="64">Kalimantan Timur</option>
+                                                <option value="65">Kalimantan Utara</option>
+                                                <option value="71">Sulawesi Utara</option>
+                                                <option value="72">Sulawesi Tengah</option>
+                                                <option value="73">Sulawesi Selatan</option>
+                                                <option value="74">Sulawesi Tenggara</option>
+                                                <option value="75">Gorontalo</option>
+                                                <option value="76">Sulawesi Barat</option>
+                                                <option value="81">Maluku</option>
+                                                <option value="82">Maluku Utara</option>
+                                                <option value="91">Papua</option>
+                                                <option value="92">Papua Barat</option>
+                                            </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="mb-3">
+                                            <td><label>Masukkan Tahun</label></td>
+                                            <td>:</td>
+                                            <td><input input type = "number" name = "tahun"></td>
+                                        </tr>
+                                        <tr class="mb-3">
+                                            <td>Masukkan Luas Tanah</td>
+                                            <td>:</td>
+                                            <td><input input type = "float" name = "Luas_Tanah"></td>
+                                        </tr>
+                                      <tr class="mb-3">
+                                          <td>Masukkan Produktivitas</td>
+                                          <td>:</td>
+                                          <td><input input type = "float" name = "Produktivitas"></td>
+                                      </tr>
+                                  </table>
+                                  <button style="background-color: #778899; color:#ffff" type = "submit" value = "submit">Prediksi</button>
+                              </form>
+                            <div>
+                                <h3 style= "color: #997800">Hasil Prediksi</h3>
+                                <table>
+                                    <tr class="mb-5" style="color: #997800">
+                                        <td>Provinsi</td>
+                                        <td>:</td>
+                                        <td>{{ provinsi }}</td>
+                                    </tr>
+                                    <tr class="mb-5" style="color: #997800">
+                                        <td>Tahun</td>
+                                        <td>:</td>
+                                        <td>{{ tahun }}</td>
+                                    </tr>
+                                    <tr class="mb-5" style="color: #997800">
+                                        <td>Prediksi Jumlah Produksi Padi</td>
+                                        <td>:</td>
+                                        <td>{{ result }} Ton</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- Footer-->
+        <footer class="footer py-4 bg-light fixed-bottom">
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="col-lg-4 text-lg-start">Copyright &copy; Prediksi Panen Padi</div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
+                        <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{{url_for('static', filename='js/scripts.js')}}" crossorigin="anonymous"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js" type="text/css"></script>
+    </body>
+</html>

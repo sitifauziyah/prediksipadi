@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Prediksi Panen Padi</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='assets/Padi.png')}}" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <link href="{{url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+        <!-- JQUERY-->
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    </head>
+    <body id="page-top">
+        <nav class="navbar navbar-expand-lg bg-success fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand"><img src="{{url_for('static', filename='/assets/img/Padi-db.png')}}">Prediksi Panen Padi</a>
+                <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ username }}<i class="fas fa-user fa-fw"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a href="{{ url_for('logout') }}" class="dropdown-item">Logout</a>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="page-section" id="homeadmin">
+            <div class="container">
+                <div class="card mb-4">
+                    <div class="card-header" style="background-color: #FFD700; color:#ffff">
+                        Tabel Data
+                    </div>
+                    <div class="card-body" style="text-align: justify;">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                            <i class="fa-solid fa-square-plus"></i>Tambah Data
+                        </button>
+                        <table class="table table-bordered table-hover border-1" id="datatablesSimple">
+                              <thead>
+                                  <tr style="background-color: #FFD700">
+                                    <th style="text-align:center">No</th>
+                                    <th style="text-align:center">Provinsi</th>
+                                    <th style="text-align:center">Tahun</th>
+                                    <th style="text-align:center">Luas Tanah (ha)</th>
+                                    <th style="text-align:center">Produktivitas (ha/ton)</th>
+                                    <th style="text-align:center">Produksi (ton)</th>
+                                    <th width="20%" colspan="2">Aksi</th>
+                                  </tr>
+                              </thead>
+                                  <tbody>
+                                    {% for row in datasets %}
+                                    <tr>
+                                        <td>{{ row.0 }}</td>
+                                        <td>{{ row.1 }}</td>
+                                        <td>{{ row.2 }}</td>
+                                        <td>{{ row.3 }}</td>
+                                        <td>{{ row.4 }}</td>
+                                        <td>{{ row.5 }}</td>
+                                        <td>
+                                            <a href="#!" class="btn btn-warning btn-xs" data-bs-toggle="modal" data-bs-target="#ModalEdit{{ row.0 }}"><i class="fa-solid fa-pen-clip"></i>Edit</a>
+                                            <a href="/hapus/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('Apakah Anda Yakin?')"><i class="fa-solid fa-trash-can"></i>Hapus</a>
+                                        </td>
+                                    </tr>
+                                    <!-- The Modal -->
+                                    <div class="modal fade" id="ModalEdit{{ row.0 }}" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Edit Data</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    <form action="{{ url_for('update') }}" method="post">
+                                                         <div class="form-group">
+                                                              <label>Provinsi:</label>
+                                                              <input type="hidden" name="id" value="{{ row.0 }}">
+                                                              <input type="text" class="form-control" name="provinsi" value="{{ row.1 }}">
+                                                         </div>
+                                                        <div class="form-group">
+                                                              <label>Tahun:</label>
+                                                              <input type="number" class="form-control" name="tahun" value="{{ row.2 }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                              <label>Luas Tanah:</label>
+                                                              <input type="float" class="form-control" name="luas_tanah" value="{{ row.3 }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                              <label>Produktivitas:</label>
+                                                              <input type="float" class="form-control" name="produktivitas" value="{{ row.4 }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                              <label>Produksi:</label>
+                                                              <input type="float" class="form-control" name="produksi" value="{{ row.5 }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                              <button type="submit" class="btn btn-warning">Perbarui</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 {% endfor %}
+                                  </tbody>
+                           </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Tambah Data</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form action="{{ url_for('simpan') }}" method="post">
+                                <div class="form-group">
+                                    <label>Provinsi:</label>
+                                    <input type="text" class="form-control" name="provinsi">
+                                </div>
+                                <div class="form-group">
+                                    <label>Tahun:</label>
+                                    <input type="number" class="form-control" name="tahun">
+                                </div>
+                                <div class="form-group">
+                                    <label>Luas Tanah:</label>
+                                    <input type="float" class="form-control" name="luas_tanah">
+                                </div>
+                                <div class="form-group">
+                                    <label>Produktivitas:</label>
+                                    <input type="float" class="form-control" name="produktivitas">
+                                </div>
+                                <div class="form-group">
+                                    <label>Produksi:</label>
+                                    <input type="float" class="form-control" name="produksi">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer-->
+        <!-- Footer-->
+        <footer class="footer py-4 bg-light fixed-bottom">
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="col-lg-4 text-lg-start">Copyright &copy; Prediksi Panen Padi</div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
+                        <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{{url_for('static', filename='js/scripts.js')}}" crossorigin="anonymous"></script>
+        <script src="{{url_for('static', filename='js/datatables-simple-demo.js')}}" crossorigin="anonymous"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js" type="text/css"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    </body>
+</html>
